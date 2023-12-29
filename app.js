@@ -6,7 +6,7 @@ const nameInput = studentForm["name"];
 const ageInput = studentForm["age"];
 const rollInput = studentForm["roll"];
 
-const students = [];
+const students = JSON.parse(localStorage.getItem("students")) || [];
 
 const addStudent = (name, age, roll) => {
   const newStudent = {
@@ -15,6 +15,8 @@ const addStudent = (name, age, roll) => {
     roll,
   };
   students.push(newStudent);
+
+  localStorage.setItem("students", JSON.stringify(students));
   return newStudent;
 };
 
@@ -33,7 +35,11 @@ const createStudentElement = ({ name, age, roll }) => {
   //Add created elements to the DOM
   studentDiv.append(studentName, studentAge, studentRoll);
   studentContainer.appendChild(studentDiv);
+
+  studentContainer.style.display = students.length === 0 ? "none" : "flex";
 };
+
+studentContainer.style.display = students.length === 0 ? "none" : "flex";
 
 students.forEach(createStudentElement);
 
